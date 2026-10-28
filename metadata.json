@@ -1,0 +1,8 @@
+{
+  "name": "DzMahall - Boutique en Ligne & Shopping Algérie",
+  "description": "Plateforme e-commerce indépendante pour le marché algérien avec paiement à la livraison (COD) dans les 58 wilayas, gestion des commandes, transporteurs et rentabilité.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

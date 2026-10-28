@@ -1,0 +1,10 @@
+{
+  "smtpHost": "smtp.gmail.com",
+  "smtpPort": 465,
+  "smtpSecure": true,
+  "smtpUser": "ouaredomar@gmail.com",
+  "smtpFrom": "DZMahall <ouaredomar@gmail.com>",
+  "smtpPassEncrypted": "v1:4a159a600ca2de14eae45fa8:5b49842b5e6309b373230fce641bf0a1:5ba78a7522b7c9b87bfcdbc1bffce4d9",
+  "explicitlyDeleted": false,
+  "updatedAt": "2026-10-28T12:17:50.053Z"
+}

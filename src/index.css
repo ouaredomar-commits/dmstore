@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+
+    /* Palette Conversion E-Commerce officielle DzMahall */
+    --color-fond: #FFFFFF;
+    --color-structure: #F4F6F8;
+    --color-lecture: #212B36;
+    --color-garanties: #004C3F;
+    --color-cta: #FF6500;
+    --color-accent-soft: #B4CCF5;
+    --color-urgence: #D82C0D;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-fond);
+    color: var(--color-lecture);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--color-lecture);
+  }
+}
+
+/* Hide scrollbars for horizontal touch pill bars while preserving smooth touch scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom print styles for standard Algerian carrier shipping label (10x15cm) */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-shipping-label,
+  #printable-shipping-label * {
+    visibility: visible;
+  }
+  #printable-shipping-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100mm;
+    min-height: 150mm;
+    margin: 0;
+    padding: 8mm;
+    background: white !important;
+    color: black !important;
+  }
+}

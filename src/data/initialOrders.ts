@@ -1,0 +1,177 @@
+import { Order } from '../types';
+
+export const INITIAL_ORDERS: Order[] = [
+  {
+    id: 'ord-1042',
+    orderNumber: 'DZM-2026-1042',
+    createdAt: '2026-10-20T09:14:00Z',
+    updatedAt: '2026-10-20T11:30:00Z',
+    customerName: 'Karim Boukhalfa',
+    customerPhone: '0550123456',
+    wilayaCode: '16',
+    wilayaName: 'Alger',
+    commune: 'Hydra',
+    deliveryAddress: 'Résidence Les Pins, Bâtiment B2 N°4',
+    deliveryMode: 'home',
+    items: [
+      {
+        productId: 'prod-1',
+        productName: 'Montre Connectée Ultra Pro Titanium AMOLED',
+        variantId: 'v1-orange',
+        variantName: 'Édition Titane Orange DzMahall',
+        quantity: 1,
+        unitPrice: 4900,
+        totalPrice: 4900,
+      }
+    ],
+    subtotal: 4900,
+    shippingCost: 400,
+    discount: 0,
+    totalAmount: 5300,
+    paymentMethod: 'COD',
+    paymentStatus: 'pending',
+    status: 'shipped',
+    carrierId: 'yalidine',
+    carrierName: 'Yalidine Fast Logistics',
+    trackingNumber: 'yal_dz_984102941',
+    carrierTrackingUrl: 'https://yalidine.app/tracking/?tracking=yal_dz_984102941',
+    notes: 'Appeler 15 minutes avant arrivée SVP.',
+    statusHistory: [
+      { status: 'pending_confirmation', timestamp: '2026-10-20T09:14:00Z', note: 'Commande reçue sur DzMahall.store' },
+      { status: 'confirmed', timestamp: '2026-10-20T09:35:00Z', note: 'Client confirmé par téléphone au 0550123456' },
+      { status: 'processing', timestamp: '2026-10-20T10:10:00Z', note: 'Colis emballé & étiquette imprimée' },
+      { status: 'shipped', timestamp: '2026-10-20T11:30:00Z', note: 'Bordereau remis au livreur Yalidine' }
+    ]
+  },
+  {
+    id: 'ord-1041',
+    orderNumber: 'DZM-2026-1041',
+    createdAt: '2026-10-19T16:22:00Z',
+    updatedAt: '2026-10-20T08:00:00Z',
+    customerName: 'Amina Mansouri',
+    customerPhone: '0660769386',
+    wilayaCode: '31',
+    wilayaName: 'Oran',
+    commune: 'Es Sénia',
+    deliveryAddress: 'Centre commercial ou bureau Stop Desk',
+    deliveryMode: 'desk',
+    deskName: 'Bureau Stop Desk Oran Centre',
+    items: [
+      {
+        productId: 'prod-2',
+        productName: 'Écouteurs Sans Fil Pro ANC Réduction de Bruit',
+        variantId: 'v2-white',
+        variantName: 'Blanc Céramique Nacré',
+        quantity: 1,
+        unitPrice: 3800,
+        totalPrice: 3800,
+      },
+      {
+        productId: 'prod-7',
+        productName: 'Portefeuille Slim Carbone Pop-Up Anti-RFID',
+        variantId: 'v7-carbon',
+        variantName: 'Fibre de Carbone Noir Furtif',
+        quantity: 1,
+        unitPrice: 1900,
+        totalPrice: 1900,
+      }
+    ],
+    subtotal: 5700,
+    shippingCost: 350,
+    discount: 300,
+    totalAmount: 5750,
+    paymentMethod: 'COD',
+    paymentStatus: 'pending',
+    status: 'in_transit',
+    carrierId: 'yalidine',
+    carrierName: 'Yalidine Fast Logistics',
+    trackingNumber: 'yal_dz_984091812',
+    carrierTrackingUrl: 'https://yalidine.app/tracking/?tracking=yal_dz_984091812',
+    notes: 'Réception au Stop Desk d\'Oran',
+    statusHistory: [
+      { status: 'pending_confirmation', timestamp: '2026-10-19T16:22:00Z', note: 'Commande invitée validée' },
+      { status: 'confirmed', timestamp: '2026-10-19T16:40:00Z', note: 'Validée par opérateur DzMahall' },
+      { status: 'processing', timestamp: '2026-10-19T18:00:00Z', note: 'Préparation terminée' },
+      { status: 'shipped', timestamp: '2026-10-20T06:00:00Z', note: 'Départ hub logistique Alger' },
+      { status: 'in_transit', timestamp: '2026-10-20T08:00:00Z', note: 'En cours d\'acheminement vers Oran' }
+    ]
+  },
+  {
+    id: 'ord-1040',
+    orderNumber: 'DZM-2026-1040',
+    createdAt: '2026-10-18T14:10:00Z',
+    updatedAt: '2026-10-19T15:45:00Z',
+    customerName: 'Yacine Djebbar',
+    customerPhone: '0770984512',
+    wilayaCode: '25',
+    wilayaName: 'Constantine',
+    commune: 'El Khroub',
+    deliveryAddress: 'Quartier 1600 Logements, Bloc 12',
+    deliveryMode: 'home',
+    items: [
+      {
+        productId: 'prod-3',
+        productName: 'Sac à Dos Antivol Étanche Urbain Business & Voyage',
+        variantId: 'v3-black',
+        variantName: 'Noir Ébène Business',
+        quantity: 1,
+        unitPrice: 4500,
+        totalPrice: 4500,
+      }
+    ],
+    subtotal: 4500,
+    shippingCost: 600,
+    discount: 0,
+    totalAmount: 5100,
+    paymentMethod: 'COD',
+    paymentStatus: 'collected',
+    status: 'delivered',
+    carrierId: 'guepex',
+    carrierName: 'Guepex Express',
+    trackingNumber: 'GXP-DZM-81923',
+    carrierTrackingUrl: 'https://guepex.com/suivi/GXP-DZM-81923',
+    notes: 'Colis livré avec succès et montant encaissé en espèces.',
+    statusHistory: [
+      { status: 'pending_confirmation', timestamp: '2026-10-18T14:10:00Z' },
+      { status: 'confirmed', timestamp: '2026-10-18T14:30:00Z' },
+      { status: 'shipped', timestamp: '2026-10-18T18:00:00Z' },
+      { status: 'out_for_delivery', timestamp: '2026-10-19T10:00:00Z' },
+      { status: 'delivered', timestamp: '2026-10-19T15:45:00Z', note: 'Payé 5100 DZD au livreur' }
+    ]
+  },
+  {
+    id: 'ord-1039',
+    orderNumber: 'DZM-2026-1039',
+    createdAt: '2026-10-20T12:05:00Z',
+    updatedAt: '2026-10-20T12:05:00Z',
+    customerName: 'Sofiane Meziani',
+    customerPhone: '0561239847',
+    wilayaCode: '09',
+    wilayaName: 'Blida',
+    commune: 'Boufarik',
+    deliveryAddress: 'Rue de la Gare, n° 14',
+    deliveryMode: 'home',
+    items: [
+      {
+        productId: 'prod-6',
+        productName: 'Tondeuse Barbe & Cheveux Professionnelle Métal 5-en-1',
+        variantId: 'v6-gold',
+        variantName: 'Doré Vintage Gravé Dragon & Phénix',
+        quantity: 1,
+        unitPrice: 3500,
+        totalPrice: 3500,
+      }
+    ],
+    subtotal: 3500,
+    shippingCost: 450,
+    discount: 0,
+    totalAmount: 3950,
+    paymentMethod: 'COD',
+    paymentStatus: 'pending',
+    status: 'pending_confirmation',
+    notes: 'Nouvelle commande à appeler pour confirmation.',
+    statusHistory: [
+      { status: 'pending_confirmation', timestamp: '2026-10-20T12:05:00Z', note: 'Commande soumise en ligne' }
+    ]
+  }
+];

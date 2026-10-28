@@ -1,0 +1,151 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Products collection: public storefront read, validated write for catalog and stock management
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update: if isValidId(productId)
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 200
+        && request.resource.data.price is number
+        && request.resource.data.price > 0
+        && request.resource.data.stockQuantity is number
+        && request.resource.data.stockQuantity >= 0;
+      allow delete: if isValidId(productId);
+    }
+
+    // Categories collection: public storefront read, validated write for category hierarchy management
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update: if isValidId(categoryId)
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 150;
+      allow delete: if isValidId(categoryId);
+    }
+
+    // Orders collection: hardened public create for Cash-on-Delivery (COD) orders, admin updates
+    match /orders/{orderId} {
+      allow read: if true;
+      allow create: if isValidId(orderId)
+        && request.resource.data.customerName is string
+        && request.resource.data.customerName.size() >= 2
+        && request.resource.data.customerName.size() <= 150
+        && request.resource.data.customerPhone is string
+        && request.resource.data.customerPhone.size() >= 9
+        && request.resource.data.customerPhone.size() <= 30
+        && request.resource.data.wilayaCode is string
+        && request.resource.data.wilayaCode.size() >= 1
+        && request.resource.data.wilayaCode.size() <= 10
+        && request.resource.data.items is list
+        && request.resource.data.items.size() >= 1
+        && request.resource.data.items.size() <= 50
+        && request.resource.data.subtotal is number
+        && request.resource.data.subtotal > 0
+        && request.resource.data.shippingCost is number
+        && request.resource.data.shippingCost >= 0
+        && request.resource.data.totalAmount is number
+        && request.resource.data.totalAmount > 0
+        && request.resource.data.paymentMethod == 'COD'
+        && request.resource.data.paymentStatus == 'pending'
+        && (request.resource.data.status == 'pending_confirmation' || request.resource.data.status == 'needs_review');
+      allow update, delete: if isValidId(orderId);
+    }
+
+    // Landing pages collection: public read for buyers, management write
+    match /landing_pages/{pageId} {
+      allow read: if true;
+      allow create, update: if isValidId(pageId)
+        && request.resource.data.title is string
+        && request.resource.data.title.size() <= 200
+        && request.resource.data.productId is string;
+      allow delete: if isValidId(pageId);
+    }
+
+    // Notification recipients collection: read active recipients for order alerts, validated write for admin management
+    match /notification_recipients/{recipientId} {
+      allow read: if true;
+      allow create, update: if isValidId(recipientId)
+        && request.resource.data.email is string
+        && request.resource.data.email.size() >= 5
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.isActive is bool
+        && request.resource.data.notifyOnNewOrder is bool;
+      allow delete: if isValidId(recipientId);
+    }
+
+    // Order notifications log collection: tracks notification dispatch status per order with idempotency
+    match /order_notifications/{notificationId} {
+      allow read: if true;
+      allow create, update: if isValidId(notificationId)
+        && request.resource.data.orderId is string
+        && request.resource.data.orderNumber is string
+        && request.resource.data.status is string;
+      allow delete: if isValidId(notificationId);
+    }
+
+    function isVerifiedAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'ouaredomar@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    // Anti-Fraud Watchlist collection: strictly private to verified admin (never readable by public clients)
+    match /fraud_watchlist/{phoneId} {
+      allow read: if isVerifiedAdmin();
+      allow create, update: if isVerifiedAdmin()
+        && isValidId(phoneId)
+        && request.resource.data.phone is string
+        && request.resource.data.phone.size() >= 8
+        && request.resource.data.phone.size() <= 20
+        && request.resource.data.status in ['watched', 'blocked', 'trusted']
+        && request.resource.data.reason is string
+        && request.resource.data.reason.size() >= 2
+        && request.resource.data.reason.size() <= 500;
+      allow delete: if isVerifiedAdmin() && isValidId(phoneId);
+    }
+
+    // Anti-Fraud Settings collection: strictly private to verified admin
+    match /fraud_settings/{settingId} {
+      allow read: if isVerifiedAdmin();
+      allow create, update: if isVerifiedAdmin()
+        && isValidId(settingId)
+        && request.resource.data.enabled is bool
+        && request.resource.data.maxOrdersPerPhonePerHour is number
+        && request.resource.data.maxOrdersPerPhonePerHour >= 1
+        && request.resource.data.duplicateWindowMinutes is number
+        && request.resource.data.duplicateWindowMinutes >= 1;
+      allow delete: if isVerifiedAdmin() && isValidId(settingId);
+    }
+
+    // Security Events Audit Log collection: strictly private to verified admin
+    match /security_events/{eventId} {
+      allow read: if isVerifiedAdmin();
+      allow create, update: if isVerifiedAdmin()
+        && isValidId(eventId)
+        && request.resource.data.eventType is string
+        && request.resource.data.eventType.size() <= 60
+        && request.resource.data.severity in ['low', 'medium', 'high']
+        && request.resource.data.reason is string
+        && request.resource.data.reason.size() <= 500;
+      allow delete: if isVerifiedAdmin() && isValidId(eventId);
+    }
+
+    // Connection test document
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+
+    // Default deny for everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

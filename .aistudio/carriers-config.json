@@ -1,0 +1,534 @@
+{
+  "carriers": [
+    {
+      "id": "yalidine",
+      "name": "Yalidine Fast Logistics",
+      "description": "Premier réseau de livraison express en Algérie couvrant 58 wilayas avec plus de 400 centres et points relais (Stop Desk). Authentification officielle via en-têtes X-API-ID et X-API-TOKEN.",
+      "status": "not_configured",
+      "environment": "production",
+      "adapterFamily": "yalidine",
+      "platformLabel": "API REST Yalidine v1 (https://api.yalidine.app/v1)",
+      "docStatus": "official_verified",
+      "testEndpointInfo": "GET https://api.yalidine.app/v1/wilayas/",
+      "parcelEndpointInfo": "POST https://api.yalidine.app/v1/parcels/",
+      "supportsWebhooks": true,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://yalidine.app",
+      "trackingUrlTemplate": "https://yalidine.com/suivre-un-colis/?tracking={TRACKING}",
+      "fields": [
+        {
+          "key": "apiId",
+          "label": "API ID (Header: X-API-ID)",
+          "type": "text",
+          "value": "",
+          "placeholder": "Ex: 84920194820194820192",
+          "required": true,
+          "helperText": "Identifiant API généré depuis Yalidine App > Développement > API."
+        },
+        {
+          "key": "apiToken",
+          "label": "API Token (Header: X-API-TOKEN)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Votre jeton secret Yalidine (64 caractères)",
+          "required": true,
+          "helperText": "Jeton secret associé à votre API ID Yalidine."
+        },
+        {
+          "key": "fromWilayaName",
+          "label": "Wilaya d'expédition (from_wilaya_name)",
+          "type": "text",
+          "value": "Alger",
+          "placeholder": "Ex: Alger, Oran, Sétif...",
+          "required": true,
+          "helperText": "Nom officiel de la wilaya de départ exigé par POST /v1/parcels/."
+        },
+        {
+          "key": "defaultStopDeskId",
+          "label": "ID Centre Stop Desk par défaut (stopdesk_id)",
+          "type": "text",
+          "value": "",
+          "placeholder": "Ex: 160101 (Optionnel, requis si livraison Stop Desk)",
+          "required": false,
+          "helperText": "Identifiant numérique de l’agence Stop Desk si non précisé sur la commande."
+        }
+      ]
+    },
+    {
+      "id": "guepex",
+      "name": "Guepex Express",
+      "description": "Réseau logistique e-commerce national utilisant la même architecture REST que Yalidine sur le domaine dédié api.guepex.app (en-têtes X-API-ID et X-API-TOKEN).",
+      "status": "connected",
+      "environment": "production",
+      "adapterFamily": "guepex",
+      "platformLabel": "API REST Guepex v1 (https://api.guepex.app/v1)",
+      "docStatus": "official_verified",
+      "testEndpointInfo": "GET https://api.guepex.app/v1/wilayas/",
+      "parcelEndpointInfo": "POST https://api.guepex.app/v1/parcels/",
+      "supportsWebhooks": true,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://guepex.app",
+      "trackingUrlTemplate": "https://guepex.com/suivi/{TRACKING}",
+      "fields": [
+        {
+          "key": "apiId",
+          "label": "API ID Guepex (Header: X-API-ID)",
+          "type": "text",
+          "value": "guepex_real_id_updated",
+          "placeholder": "Votre API ID Guepex",
+          "required": true,
+          "helperText": "Généré depuis votre portail vendeur Guepex > Développement."
+        },
+        {
+          "key": "apiToken",
+          "label": "API Token Guepex (Header: X-API-TOKEN)",
+          "type": "password",
+          "value": "enc:v1:5a74a74797be04adcf6fca92:a68fab8fdf4fcec9ea5db6999bdcd86c:7d1bfad7448a1da12ea6c8dcf2b9295f4fd6792e2ca98ed9d22a",
+          "placeholder": "Votre API Token Guepex",
+          "required": true,
+          "helperText": "Jeton secret transmis dans l’en-tête X-API-TOKEN."
+        },
+        {
+          "key": "fromWilayaName",
+          "label": "Wilaya d'expédition (from_wilaya_name)",
+          "type": "text",
+          "value": "Alger",
+          "placeholder": "Ex: Alger",
+          "required": true
+        },
+        {
+          "key": "defaultStopDeskId",
+          "label": "ID Agence Stop Desk par défaut (stopdesk_id)",
+          "type": "text",
+          "value": "",
+          "placeholder": "Optionnel",
+          "required": false
+        },
+        {
+          "key": "defaultServiceType",
+          "label": "Niveau de service Guepex par défaut (express ou economique)",
+          "type": "text",
+          "value": "economique",
+          "placeholder": "Optionnel : economique ou express (vide = sélection obligatoire par commande)",
+          "required": false,
+          "helperText": "Permet de définir un mode par défaut au niveau du transporteur sans jamais écraser le choix explicite d’une commande."
+        }
+      ]
+    },
+    {
+      "id": "ecotrack",
+      "name": "EcoTrack Delivery",
+      "description": "Connecteur générique officiel pour tout transporteur algérien propulsé par la plateforme SaaS EcoTrack (authentification par Bearer Token sur /api/v1).",
+      "status": "not_configured",
+      "environment": "production",
+      "adapterFamily": "ecotrack",
+      "platformLabel": "EcoTrack SaaS API v1 ({baseUrl}/api/v1)",
+      "docStatus": "official_verified",
+      "testEndpointInfo": "GET {baseUrl}/api/v1/get/wilayas",
+      "parcelEndpointInfo": "POST {baseUrl}/api/v1/create/order",
+      "supportsWebhooks": true,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://ecotrack.dz",
+      "trackingUrlTemplate": "https://ecotrack.dz/track?n={TRACKING}",
+      "fields": [
+        {
+          "key": "baseUrl",
+          "label": "URL du portail EcoTrack (Base URL)",
+          "type": "url",
+          "value": "",
+          "placeholder": "Ex: https://mon-transporteur.ecotrack.dz",
+          "required": true,
+          "helperText": "Sous-domaine EcoTrack exact de votre société de livraison (sans /api/v1 à la fin)."
+        },
+        {
+          "key": "apiToken",
+          "label": "API Token (Authorization: Bearer)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Collez votre Bearer Token EcoTrack",
+          "required": true,
+          "helperText": "Jeton API unique généré dans votre espace expéditeur EcoTrack. Aucun API ID additionnel n’est requis."
+        }
+      ]
+    },
+    {
+      "id": "zr-express",
+      "name": "ZR Express",
+      "description": "Réseau national de livraison COD opérant via l’infrastructure Procolis / ZR Express (en-têtes officiels token et key sur procolis.com/api_v1).",
+      "status": "not_configured",
+      "environment": "production",
+      "adapterFamily": "procolis_zrexpress",
+      "platformLabel": "API Procolis / ZR Express v1 (https://procolis.com/api_v1)",
+      "docStatus": "official_verified",
+      "testEndpointInfo": "GET https://procolis.com/api_v1/token",
+      "parcelEndpointInfo": "POST https://procolis.com/api_v1/add_colis",
+      "supportsWebhooks": true,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://procolis.com",
+      "trackingUrlTemplate": "https://zrexpress.dz/tracking/{TRACKING}",
+      "fields": [
+        {
+          "key": "apiToken",
+          "label": "Token API (Header: token)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Votre Token Procolis / ZR Express",
+          "required": true,
+          "helperText": "Fourni dans votre espace client Procolis / ZR Express > Paramètres API."
+        },
+        {
+          "key": "apiKey",
+          "label": "Clé Secrète (Header: key)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Votre Clé Key Procolis / ZR Express",
+          "required": true,
+          "helperText": "Second paramètre d’authentification obligatoire envoyé dans l’en-tête HTTP \"key\"."
+        },
+        {
+          "key": "baseUrl",
+          "label": "URL de base API",
+          "type": "url",
+          "value": "https://procolis.com/api_v1",
+          "placeholder": "https://procolis.com/api_v1",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "maystro",
+      "name": "Maystro Delivery",
+      "description": "Plateforme technologique de livraison e-commerce et fulfillment avec API REST (authentification par en-tête Authorization: Token).",
+      "status": "not_configured",
+      "environment": "production",
+      "adapterFamily": "maystro",
+      "platformLabel": "API REST Maystro (https://backend.maystro-delivery.com/api)",
+      "docStatus": "official_verified",
+      "testEndpointInfo": "GET https://backend.maystro-delivery.com/api/base/wilayas/",
+      "parcelEndpointInfo": "POST https://backend.maystro-delivery.com/api/stores/orders/",
+      "supportsWebhooks": true,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://maystro-delivery.com",
+      "trackingUrlTemplate": "https://maystro-delivery.com/track/{TRACKING}",
+      "fields": [
+        {
+          "key": "apiToken",
+          "label": "Clé API Maystro (Header: Authorization: Token ...)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Collez votre Token API Maystro",
+          "required": true,
+          "helperText": "Jeton d’authentification généré depuis votre compte Maystro Delivery."
+        },
+        {
+          "key": "storeId",
+          "label": "Identifiant Magasin (Store ID)",
+          "type": "text",
+          "value": "",
+          "placeholder": "UUID ou identifiant de votre boutique Maystro (pour création de colis)",
+          "required": false
+        },
+        {
+          "key": "baseUrl",
+          "label": "URL de base API Maystro",
+          "type": "url",
+          "value": "https://backend.maystro-delivery.com/api",
+          "placeholder": "https://backend.maystro-delivery.com/api",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "noest",
+      "name": "Noest Delivery",
+      "description": "Réseau de livraison express national (Nord & Ouest Express) utilisant l’API publique app.noest-dz.com avec couple api_token et user_guid.",
+      "status": "not_configured",
+      "environment": "production",
+      "adapterFamily": "noest",
+      "platformLabel": "API Noest Express (https://app.noest-dz.com/api/public)",
+      "docStatus": "official_verified",
+      "testEndpointInfo": "GET https://app.noest-dz.com/api/public/get/wilayas",
+      "parcelEndpointInfo": "POST https://app.noest-dz.com/api/public/create/order",
+      "supportsWebhooks": false,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://app.noest-dz.com",
+      "trackingUrlTemplate": "https://noest-dz.com/suivi?code={TRACKING}",
+      "fields": [
+        {
+          "key": "apiToken",
+          "label": "API Token (api_token)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Votre jeton API Noest (Bearer / api_token)",
+          "required": true,
+          "helperText": "Clé api_token générée depuis votre espace client app.noest-dz.com."
+        },
+        {
+          "key": "userGuid",
+          "label": "User GUID (user_guid)",
+          "type": "text",
+          "value": "",
+          "placeholder": "Ex: 8A4F9C21-...",
+          "required": true,
+          "helperText": "Identifiant unique user_guid obligatoire exigé par l’API Noest en complément du token."
+        },
+        {
+          "key": "baseUrl",
+          "label": "URL de base API Noest",
+          "type": "url",
+          "value": "https://app.noest-dz.com",
+          "placeholder": "https://app.noest-dz.com",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "dhd",
+      "name": "DHD Express",
+      "description": "Service de livraison inter-wilayas opérant sur l’infrastructure EcoTrack via son domaine dédié platform.dhd-dz.com.",
+      "status": "not_configured",
+      "environment": "production",
+      "adapterFamily": "ecotrack",
+      "platformLabel": "EcoTrack DHD (https://platform.dhd-dz.com/api/v1)",
+      "docStatus": "ecotrack_verified",
+      "testEndpointInfo": "GET https://platform.dhd-dz.com/api/v1/get/wilayas",
+      "parcelEndpointInfo": "POST https://platform.dhd-dz.com/api/v1/create/order",
+      "supportsWebhooks": false,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://platform.dhd-dz.com",
+      "trackingUrlTemplate": "https://platform.dhd-dz.com/track/{TRACKING}",
+      "fields": [
+        {
+          "key": "apiToken",
+          "label": "API Token DHD (Bearer Token EcoTrack)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Votre jeton Bearer DHD Express",
+          "required": true,
+          "helperText": "Jeton API unique récupéré dans votre espace client platform.dhd-dz.com."
+        },
+        {
+          "key": "baseUrl",
+          "label": "URL du serveur EcoTrack DHD",
+          "type": "url",
+          "value": "https://platform.dhd-dz.com",
+          "placeholder": "https://platform.dhd-dz.com",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "anderson",
+      "name": "Anderson Logistics",
+      "description": "Intégration historique Anderson Delivery propulsée par la plateforme EcoTrack (anderson.ecotrack.dz). Conservée pour la compatibilité des commandes existantes.",
+      "status": "not_configured",
+      "environment": "production",
+      "adapterFamily": "ecotrack",
+      "platformLabel": "EcoTrack Anderson (https://anderson.ecotrack.dz/api/v1)",
+      "docStatus": "ecotrack_verified",
+      "testEndpointInfo": "GET https://anderson.ecotrack.dz/api/v1/get/wilayas",
+      "parcelEndpointInfo": "POST https://anderson.ecotrack.dz/api/v1/create/order",
+      "supportsWebhooks": false,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://anderson.ecotrack.dz",
+      "trackingUrlTemplate": "https://anderson.ecotrack.dz/track?code={TRACKING}",
+      "fields": [
+        {
+          "key": "apiToken",
+          "label": "API Token (Bearer Token EcoTrack)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Votre jeton Bearer anderson.ecotrack.dz",
+          "required": true
+        },
+        {
+          "key": "baseUrl",
+          "label": "URL du serveur EcoTrack Anderson",
+          "type": "url",
+          "value": "https://anderson.ecotrack.dz",
+          "placeholder": "https://anderson.ecotrack.dz",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "hhd-express",
+      "name": "HHD Express",
+      "description": "Société de livraison nationale algérienne opérant sur la plateforme EcoTrack (hhd.ecotrack.dz). Utilise l’adaptateur officiel EcoTrack v1 avec un jeton Bearer unique sans API ID superflu.",
+      "status": "incomplete",
+      "environment": "production",
+      "adapterFamily": "ecotrack",
+      "platformLabel": "EcoTrack SaaS API v1 (https://hhd.ecotrack.dz/api/v1)",
+      "docStatus": "ecotrack_verified",
+      "testEndpointInfo": "GET https://hhd.ecotrack.dz/api/v1/get/wilayas",
+      "parcelEndpointInfo": "POST https://hhd.ecotrack.dz/api/v1/create/order",
+      "supportsWebhooks": true,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://hhd.ecotrack.dz",
+      "trackingUrlTemplate": "https://hhd.ecotrack.dz/suivi/{TRACKING}",
+      "fields": [
+        {
+          "key": "apiToken",
+          "label": "API Token HHD Express (Bearer Token)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Collez le jeton API généré depuis hhd.ecotrack.dz",
+          "required": true,
+          "helperText": "Généré dans votre espace vendeur HHD Express (EcoTrack). Aucun API ID supplémentaire n’est demandé par l’API."
+        },
+        {
+          "key": "baseUrl",
+          "label": "URL du portail EcoTrack HHD",
+          "type": "url",
+          "value": "https://hhd.ecotrack.dz",
+          "placeholder": "https://hhd.ecotrack.dz",
+          "required": true,
+          "helperText": "Modifiable si votre compte HHD Express utilise un sous-domaine personnalisé."
+        }
+      ],
+      "lastError": "Configuration incomplète. Champs obligatoires manquants : API Token HHD Express (Bearer Token).",
+      "lastDiagnostic": "Configuration incomplète. Champs obligatoires manquants : API Token HHD Express (Bearer Token)."
+    },
+    {
+      "id": "swift-express",
+      "name": "Swift Express",
+      "description": "Service de livraison express e-commerce en Algérie propulsé par la plateforme EcoTrack (swift.ecotrack.dz). Authentification par Bearer Token sur /api/v1.",
+      "status": "not_configured",
+      "environment": "production",
+      "adapterFamily": "ecotrack",
+      "platformLabel": "EcoTrack SaaS API v1 (https://swift.ecotrack.dz/api/v1)",
+      "docStatus": "ecotrack_verified",
+      "testEndpointInfo": "GET https://swift.ecotrack.dz/api/v1/get/wilayas",
+      "parcelEndpointInfo": "POST https://swift.ecotrack.dz/api/v1/create/order",
+      "supportsWebhooks": true,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://swift.ecotrack.dz",
+      "trackingUrlTemplate": "https://swift.ecotrack.dz/suivi/{TRACKING}",
+      "fields": [
+        {
+          "key": "apiToken",
+          "label": "API Token Swift Express (Bearer Token)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Collez le jeton API généré depuis swift.ecotrack.dz",
+          "required": true,
+          "helperText": "Jeton Bearer unique fourni dans votre tableau de bord vendeur Swift Express."
+        },
+        {
+          "key": "baseUrl",
+          "label": "URL du portail EcoTrack Swift Express",
+          "type": "url",
+          "value": "https://swift.ecotrack.dz",
+          "placeholder": "https://swift.ecotrack.dz",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "anderson-ecommerce",
+      "name": "Anderson E-commerce",
+      "description": "Entité dédiée Anderson E-commerce. En l’absence de spécification publique prouvant que votre contrat Anderson E-commerce utilise le même tenant EcoTrack qu’Anderson Delivery, l’intégration est marquée « En attente de documentation/API » (ou activable si votre compte fournit une URL EcoTrack).",
+      "status": "pending_docs",
+      "environment": "production",
+      "adapterFamily": "pending_docs",
+      "platformLabel": "En attente de documentation officielle / Confirmation du portail vendeur",
+      "docStatus": "pending_documentation",
+      "testEndpointInfo": "En attente de confirmation de l’URL API du compte vendeur",
+      "parcelEndpointInfo": "Mode manuel actif tant que l’endpoint officiel n’est pas confirmé",
+      "pendingDocsRequirements": [
+        "Demander à votre chargé de compte Anderson E-commerce l’URL exacte du portail API (ex: est-ce https://anderson.ecotrack.dz ou une API dédiée distincte ?).",
+        "Demander le mode d’authentification exact requis par ce portail (Bearer Token EcoTrack unique, ou couple API Key / Merchant ID).",
+        "Demander l’endpoint de lecture sans effet de bord (ex: liste des wilayas/communes) et le format JSON exact de création de colis COD.",
+        "Si Anderson E-commerce vous confirme que votre compte est sur EcoTrack (https://anderson.ecotrack.dz), saisissez cette URL et votre Bearer Token ci-dessous pour activer l’adaptateur EcoTrack."
+      ],
+      "supportsWebhooks": false,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://anderson.ecotrack.dz",
+      "trackingUrlTemplate": "https://anderson.ecotrack.dz/track?code={TRACKING}",
+      "fields": [
+        {
+          "key": "baseUrl",
+          "label": "URL de base API confirmée par Anderson E-commerce (Optionnel en mode manuel)",
+          "type": "url",
+          "value": "",
+          "placeholder": "Renseignez uniquement si confirmé (ex: https://anderson.ecotrack.dz)",
+          "required": false,
+          "helperText": "Laissez vide pour utiliser le mode manuel, ou indiquez l’URL EcoTrack si Anderson E-commerce vous l’a confirmée."
+        },
+        {
+          "key": "apiToken",
+          "label": "API Token / Bearer Token (si fourni par Anderson E-commerce)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Jeton secret fourni par le support technique Anderson E-commerce",
+          "required": false
+        },
+        {
+          "key": "apiKey",
+          "label": "Clé ou Identifiant additionnel (uniquement si exigé par leur documentation)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Optionnel",
+          "required": false
+        }
+      ],
+      "lastTestedAt": "2026-10-24T15:40:52.675Z",
+      "lastError": "Intégration en attente de documentation officielle de la part d’Anderson E-commerce. Renseignez une URL EcoTrack et un Bearer Token si votre chargé de compte confirme que votre espace vendeur est hébergé sur EcoTrack.",
+      "lastDiagnostic": "Intégration en attente de documentation officielle de la part d’Anderson E-commerce. Renseignez une URL EcoTrack et un Bearer Token si votre chargé de compte confirme que votre espace vendeur est hébergé sur EcoTrack."
+    },
+    {
+      "id": "major-express",
+      "name": "Major Express",
+      "description": "Transporteur e-commerce algérien. Si votre compte opère sous la plateforme EcoTrack (ex: majorex.ecotrack.dz), l’adaptateur EcoTrack v1 est utilisé ; vérifiez toutefois l’URL exacte de votre portail vendeur pour ne pas confondre Major Express et Majorex si votre contrat utilise un domaine distinct.",
+      "status": "not_configured",
+      "environment": "production",
+      "adapterFamily": "ecotrack",
+      "platformLabel": "EcoTrack SaaS API v1 (ex: https://majorex.ecotrack.dz/api/v1)",
+      "docStatus": "ecotrack_verified",
+      "testEndpointInfo": "GET {baseUrl}/api/v1/get/wilayas",
+      "parcelEndpointInfo": "POST {baseUrl}/api/v1/create/order",
+      "pendingDocsRequirements": [
+        "Vérifier l’URL exacte de connexion de votre espace client (https://majorex.ecotrack.dz ou autre sous-domaine EcoTrack propre à Major Express).",
+        "Générer le Bearer API Token depuis la rubrique API de votre portail vendeur.",
+        "Si votre contrat Major Express n’utilise pas EcoTrack, demander la documentation REST officielle (Base URL, headers d’authentification et endpoint de création de colis)."
+      ],
+      "supportsWebhooks": true,
+      "supportsLabelPrinting": true,
+      "supportsTracking": true,
+      "officialPortalUrl": "https://majorex.ecotrack.dz",
+      "trackingUrlTemplate": "https://majorex.ecotrack.dz/suivi/{TRACKING}",
+      "fields": [
+        {
+          "key": "baseUrl",
+          "label": "URL du portail EcoTrack du compte (ex: https://majorex.ecotrack.dz)",
+          "type": "url",
+          "value": "https://majorex.ecotrack.dz",
+          "placeholder": "https://majorex.ecotrack.dz",
+          "required": true,
+          "helperText": "Vérifiez que cette URL correspond bien au portail sur lequel votre compte Major Express / Majorex est ouvert."
+        },
+        {
+          "key": "apiToken",
+          "label": "API Token (Bearer Token EcoTrack)",
+          "type": "password",
+          "value": "",
+          "placeholder": "Collez votre Bearer Token généré dans l’espace vendeur",
+          "required": true,
+          "helperText": "Aucun API ID supplémentaire n’est requis sur EcoTrack."
+        }
+      ]
+    }
+  ],
+  "shipments": {}
+}

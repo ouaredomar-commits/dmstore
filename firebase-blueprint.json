@@ -1,0 +1,247 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "E-commerce product document for DzMahall catalog",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 200 },
+        "slug": { "type": "string", "maxLength": 200 },
+        "category": { "type": "string", "maxLength": 100 },
+        "categoryLabel": { "type": "string", "maxLength": 100 },
+        "subcategoryId": { "type": "string", "maxLength": 100 },
+        "subcategoryLabel": { "type": "string", "maxLength": 100 },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "purchaseCost": { "type": "number" },
+        "advertisingCost": { "type": "number" },
+        "packagingCost": { "type": "number" },
+        "sku": { "type": "string", "maxLength": 50 },
+        "stockQuantity": { "type": "number" },
+        "description": { "type": "string", "maxLength": 5000 },
+        "features": { "type": "array" },
+        "imageUrls": { "type": "array" },
+        "variants": { "type": "array" },
+        "isActive": { "type": "boolean" },
+        "isFeatured": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "slug", "price", "sku", "stockQuantity", "description", "imageUrls", "isActive"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Main product category with nested subcategories",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 150 },
+        "slug": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 500 },
+        "order": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "subcategories": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "slug", "order", "isActive", "subcategories"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Cash-on-delivery order placed by an Algerian customer with anti-fraud scoring",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderNumber": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "customerName": { "type": "string", "maxLength": 150 },
+        "customerPhone": { "type": "string", "maxLength": 30 },
+        "normalizedPhone": { "type": "string", "maxLength": 15 },
+        "wilayaCode": { "type": "string", "maxLength": 10 },
+        "wilayaName": { "type": "string", "maxLength": 50 },
+        "commune": { "type": "string", "maxLength": 100 },
+        "deliveryAddress": { "type": "string", "maxLength": 300 },
+        "deliveryMode": { "type": "string", "enum": ["home", "desk"] },
+        "deskName": { "type": "string", "maxLength": 100 },
+        "items": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "shippingCost": { "type": "number" },
+        "discount": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "paymentStatus": { "type": "string" },
+        "status": { "type": "string" },
+        "riskLevel": { "type": "string", "enum": ["low", "medium", "high"] },
+        "riskScore": { "type": "number" },
+        "riskReasons": { "type": "array" },
+        "idempotencyKey": { "type": "string", "maxLength": 128 },
+        "confirmationHistory": { "type": "array" }
+      },
+      "required": ["id", "orderNumber", "customerName", "customerPhone", "wilayaCode", "items", "totalAmount", "status"]
+    },
+    "LandingPage": {
+      "title": "LandingPage",
+      "description": "Commercial landing pages created in DzMahall admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "slug": { "type": "string", "maxLength": 200 },
+        "title": { "type": "string", "maxLength": 200 },
+        "productId": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["draft", "published", "archived"] },
+        "themeColor": { "type": "string", "maxLength": 30 },
+        "viewsCount": { "type": "number" },
+        "ordersCount": { "type": "number" },
+        "seoTitle": { "type": "string", "maxLength": 200 },
+        "seoDescription": { "type": "string", "maxLength": 500 },
+        "sections": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "slug", "title", "productId", "status", "sections"]
+    },
+    "NotificationRecipient": {
+      "title": "NotificationRecipient",
+      "description": "Email recipient configured in DZMahall admin to receive order notifications",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string", "maxLength": 254 },
+        "label": { "type": "string", "maxLength": 120 },
+        "isActive": { "type": "boolean" },
+        "notifyOnNewOrder": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "lastNotifiedAt": { "type": "string" },
+        "lastTestSentAt": { "type": "string" },
+        "lastTestStatus": { "type": "string" }
+      },
+      "required": ["id", "email", "isActive", "notifyOnNewOrder", "createdAt"]
+    },
+    "OrderNotificationLog": {
+      "title": "OrderNotificationLog",
+      "description": "Record of email notification dispatch status for each customer order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderId": { "type": "string" },
+        "orderNumber": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "wilayaName": { "type": "string" },
+        "commune": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "sourceLabel": { "type": "string" },
+        "subject": { "type": "string" },
+        "recipients": { "type": "array" },
+        "status": {
+          "type": "string",
+          "enum": ["sent", "failed", "not_configured", "skipped_no_recipients", "duplicate_prevented"]
+        },
+        "provider": { "type": "string" },
+        "message": { "type": "string" },
+        "errorDetail": { "type": "string" },
+        "attemptsCount": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "orderId", "orderNumber", "status", "recipients", "createdAt"]
+    },
+    "FraudWatchlistEntry": {
+      "title": "FraudWatchlistEntry",
+      "description": "Phone number monitored, blocked, or marked trusted by DZMahall anti-fraud system",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "phone": { "type": "string", "maxLength": 20 },
+        "status": { "type": "string", "enum": ["watched", "blocked", "trusted"] },
+        "reason": { "type": "string", "maxLength": 500 },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "expiresAt": { "type": "string" },
+        "addedBy": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "phone", "status", "reason", "createdAt"]
+    },
+    "FraudProtectionSettings": {
+      "title": "FraudProtectionSettings",
+      "description": "Configurable thresholds for DZMahall anti-spam and anti-fraud engine",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "enabled": { "type": "boolean" },
+        "maxOrdersPerPhonePerHour": { "type": "number" },
+        "maxOrdersPerPhonePerDay": { "type": "number" },
+        "maxOrdersPerSessionPerHour": { "type": "number" },
+        "duplicateWindowMinutes": { "type": "number" },
+        "minFormFillTimeMs": { "type": "number" },
+        "highQuantityThreshold": { "type": "number" },
+        "highAmountThreshold": { "type": "number" },
+        "autoFlagMediumRiskAsNeedsReview": { "type": "boolean" },
+        "requireChallengeOnHighRisk": { "type": "boolean" },
+        "defaultBlockDurationHours": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "enabled", "maxOrdersPerPhonePerHour", "duplicateWindowMinutes", "updatedAt"]
+    },
+    "SecurityEventLog": {
+      "title": "SecurityEventLog",
+      "description": "Audit log of anti-spam and anti-fraud events on DZMahall",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "eventType": { "type": "string", "maxLength": 60 },
+        "severity": { "type": "string", "enum": ["low", "medium", "high"] },
+        "phone": { "type": "string", "maxLength": 20 },
+        "sessionFingerprint": { "type": "string", "maxLength": 32 },
+        "source": { "type": "string", "maxLength": 30 },
+        "reason": { "type": "string", "maxLength": 500 },
+        "actionTaken": { "type": "string", "maxLength": 40 },
+        "orderNumber": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "timestamp", "eventType", "severity", "source", "reason", "actionTaken"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Collection of all e-commerce products for the storefront and admin"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Collection of product categories and subcategories"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Collection of customer orders with cash on delivery and fraud risk analysis"
+    },
+    "/landing_pages/{pageId}": {
+      "schema": "LandingPage",
+      "description": "Collection of commercial sales landing pages"
+    },
+    "/notification_recipients/{recipientId}": {
+      "schema": "NotificationRecipient",
+      "description": "Collection of recipient email addresses for order notifications"
+    },
+    "/order_notifications/{notificationId}": {
+      "schema": "OrderNotificationLog",
+      "description": "Collection of order email notification logs and retry status"
+    },
+    "/fraud_watchlist/{phoneId}": {
+      "schema": "FraudWatchlistEntry",
+      "description": "Collection of watched, blocked, or trusted customer phone numbers"
+    },
+    "/fraud_settings/{settingId}": {
+      "schema": "FraudProtectionSettings",
+      "description": "Configuration document for anti-fraud thresholds"
+    },
+    "/security_events/{eventId}": {
+      "schema": "SecurityEventLog",
+      "description": "Audit logs of blocked spam, bot submissions, and flagged orders"
+    }
+  }
+}
